@@ -6,7 +6,7 @@
   ~ ********************************************************************************/
   -->
 
-<manifest package="com.tq.libs"
+<manifest package="com.tq.essential"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application android:allowBackup="true"
