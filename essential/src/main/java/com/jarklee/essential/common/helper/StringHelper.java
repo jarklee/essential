@@ -10,6 +10,7 @@ package com.jarklee.essential.common.helper;
 
 import android.support.annotation.NonNull;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class StringHelper {
@@ -39,30 +40,64 @@ public class StringHelper {
         return "";
     }
 
-    public static boolean equal(String lhs, String rhs) {
-        return lhs == null && rhs == null || lhs != null && rhs != null && lhs.equals(rhs);
+    public static boolean equal(final String lhs, final String rhs) {
+        if (lhs == null && rhs == null) {
+            return true;
+        }
+        if (lhs == null || rhs == null) {
+            return false;
+        }
+        return lhs.equals(rhs);
     }
 
-    public static boolean equalIgnoreCase(String lhs, String rhs) {
-        return lhs == null && rhs == null || lhs != null && rhs != null && lhs.equalsIgnoreCase(rhs);
+    public static boolean equalIgnoreCase(final String lhs, final String rhs) {
+        if (lhs == null && rhs == null) {
+            return true;
+        }
+        if (lhs == null || rhs == null) {
+            return false;
+        }
+        return lhs.equalsIgnoreCase(rhs);
     }
 
-    public static boolean isEmpty(String s) {
+    public static boolean isEmpty(final String s) {
         return s == null || s.length() == 0;
     }
 
+    public static String stringByTrimInSet(final String s, char... trimSet) {
+        if (trimSet == null || trimSet.length == 0) {
+            return s;
+        }
+        trimSet = Arrays.copyOf(trimSet, trimSet.length);
+        Arrays.sort(trimSet);
+        StringBuilder builder = new StringBuilder(s);
+        int stringLength = builder.length();
+        while (stringLength != 0
+                && Arrays.binarySearch(trimSet, builder.charAt(stringLength - 1)) >= 0) {
+            builder.deleteCharAt(stringLength - 1);
+            stringLength = builder.length();
+        }
+        if (stringLength == 0) {
+            return "";
+        }
+        while (stringLength != 0 && Arrays.binarySearch(trimSet, builder.charAt(0)) >= 0) {
+            builder.deleteCharAt(0);
+            stringLength = builder.length();
+        }
+        return builder.toString();
+    }
 
     private static class Joiner {
 
         private final Object joiner;
         private boolean isSkipNull;
 
-        Joiner(@NonNull Object joiner) {
+        Joiner(final @NonNull Object joiner) {
             this.joiner = joiner;
             this.isSkipNull = false;
         }
 
-        public static Joiner on(@NonNull Object joiner) {
+        public static Joiner on(final @NonNull Object joiner) {
             return new Joiner(joiner);
         }
 
@@ -71,10 +106,10 @@ public class StringHelper {
             return this;
         }
 
-        String join(Object firstObject, Object secondObject, Object... objects) {
-            boolean includeNull = !isSkipNull;
-            StringBuilder builder = new StringBuilder("");
-            String joiner = String.valueOf(this.joiner);
+        String join(final Object firstObject, final Object secondObject, final Object... objects) {
+            final boolean includeNull = !isSkipNull;
+            final StringBuilder builder = new StringBuilder("");
+            final String joiner = String.valueOf(this.joiner);
             appendText(builder, joiner, firstObject, includeNull);
             appendText(builder, joiner, secondObject, includeNull);
             if (objects != null && objects.length != 0) {
@@ -88,10 +123,10 @@ public class StringHelper {
             return builder.toString();
         }
 
-        private void appendText(StringBuilder builder,
-                                String joiner,
-                                Object object,
-                                boolean includeNull) {
+        private void appendText(final StringBuilder builder,
+                                final String joiner,
+                                final Object object,
+                                final boolean includeNull) {
             if (object == null && !includeNull) {
                 return;
             }
