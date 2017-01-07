@@ -9,7 +9,6 @@
 package com.jarklee.essential.common.helper;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -38,7 +37,7 @@ public class PermissionHelper {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
-    public static boolean has(Fragment fragment, String... permissions) {
+    public static boolean has(android.app.Fragment fragment, String... permissions) {
         return fragment != null && has(fragment.getActivity(), permissions);
     }
 
@@ -55,7 +54,8 @@ public class PermissionHelper {
         }
     }
 
-    public static void request(Fragment fragment, int requestID, String... permissions) {
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+    public static void request(android.app.Fragment fragment, int requestID, String... permissions) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             return;
         }

@@ -11,6 +11,11 @@ package com.jarklee.essential.common;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.jarklee.essential.common.method.Invokable;
+import com.jarklee.essential.common.method.Mapper;
+import com.jarklee.essential.common.method.Predicate;
+import com.jarklee.essential.common.method.Supplier;
+
 import java.io.Closeable;
 import java.io.IOException;
 
@@ -119,14 +124,14 @@ public class Optional<T> {
         return empty();
     }
 
-    public <U> Optional<U> map(@NonNull Function<T, U> mapper) {
+    public <U> Optional<U> map(@NonNull Mapper<T, U> mapper) {
         if (!isPresent()) {
             return empty();
         }
         return Optional.ofNullable(mapper.apply(obj));
     }
 
-    public <U> Optional<U> $(@NonNull Function<T, U> mapper) {
+    public <U> Optional<U> $(@NonNull Mapper<T, U> mapper) {
         if (!isPresent()) {
             return empty();
         }
@@ -162,7 +167,7 @@ public class Optional<T> {
     }
 
     public static <T, U> Optional<U> get(@Nullable T obj,
-                                         @NonNull Function<T, U> mapper) {
+                                         @NonNull Mapper<T, U> mapper) {
         U result = null;
         if (obj != null) {
             result = mapper.apply(obj);
@@ -187,7 +192,7 @@ public class Optional<T> {
     }
 
     public static <T extends Closeable, U> Optional<U> resources(@Nullable T resource,
-                                                                 @NonNull Function<T, U> mapper) {
+                                                                 @NonNull Mapper<T, U> mapper) {
         if (resource == null) {
             return empty();
         }
@@ -200,21 +205,5 @@ public class Optional<T> {
                 e.printStackTrace();
             }
         }
-    }
-
-    public interface Supplier<T> {
-        T get();
-    }
-
-    public interface Function<T, U> {
-        U apply(T obj);
-    }
-
-    public interface Predicate<T> {
-        boolean test(T obj);
-    }
-
-    public interface Invokable<T> {
-        void invoke(T obj);
     }
 }

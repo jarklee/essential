@@ -9,11 +9,18 @@
 package com.jarklee.essential.common.helper;
 
 import android.support.annotation.NonNull;
+import android.util.Base64;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class StringHelper {
+
+    private static Random random = new Random(System.currentTimeMillis());
 
     public static String join(@NonNull final String joiner,
                               final Object firstObject,
@@ -85,6 +92,17 @@ public class StringHelper {
             stringLength = builder.length();
         }
         return builder.toString();
+    }
+
+    public static String randomString(String seedString) {
+        String resultString = seedString + System.currentTimeMillis() + random.nextInt();
+        try {
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            md5.update(resultString.getBytes(), 0, resultString.length());
+            return new BigInteger(1, md5.digest()).toString(16);
+        } catch (NoSuchAlgorithmException e) {
+            return Base64.encodeToString(resultString.getBytes(), Base64.URL_SAFE);
+        }
     }
 
     private static class Joiner {
