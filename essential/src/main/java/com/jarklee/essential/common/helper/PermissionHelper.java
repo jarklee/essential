@@ -45,6 +45,35 @@ public class PermissionHelper {
         return fragment != null && has(fragment.getContext(), permissions);
     }
 
+    public static boolean hasOne(Context context, String... permissions) {
+        if (context == null) {
+            return false;
+        }
+        if (permissions == null) {
+            return false;
+        }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            return true;
+        }
+        boolean granted = false;
+        for (String permission : permissions) {
+            if (context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
+                granted = true;
+                break;
+            }
+        }
+        return granted;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+    public static boolean hasOne(android.app.Fragment fragment, String... permissions) {
+        return fragment != null && hasOne(fragment.getActivity(), permissions);
+    }
+
+    public static boolean hasOne(android.support.v4.app.Fragment fragment, String... permissions) {
+        return fragment != null && hasOne(fragment.getContext(), permissions);
+    }
+
     public static void request(Activity activity, int requestID, String... permissions) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             return;
