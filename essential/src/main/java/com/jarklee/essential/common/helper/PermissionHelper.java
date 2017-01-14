@@ -21,7 +21,7 @@ public class PermissionHelper {
             return false;
         }
         if (permissions == null) {
-            return false;
+            return true;
         }
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             return true;
@@ -50,7 +50,7 @@ public class PermissionHelper {
             return false;
         }
         if (permissions == null) {
-            return false;
+            return true;
         }
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             return true;
@@ -110,6 +110,20 @@ public class PermissionHelper {
         for (int grantedResult : grantedResults) {
             if (grantedResult != PackageManager.PERMISSION_GRANTED) {
                 granted = false;
+                break;
+            }
+        }
+        return granted;
+    }
+
+    public static boolean isOneGranted(int[] grantedResults) {
+        if (grantedResults == null) {
+            return true;
+        }
+        boolean granted = false;
+        for (int grantedResult : grantedResults) {
+            if (grantedResult == PackageManager.PERMISSION_GRANTED) {
+                granted = true;
                 break;
             }
         }
