@@ -23,7 +23,7 @@ public class PermissionHelper {
         if (permissions == null) {
             return true;
         }
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
         }
         boolean granted = true;
@@ -52,7 +52,7 @@ public class PermissionHelper {
         if (permissions == null) {
             return true;
         }
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
         }
         boolean granted = false;
@@ -75,7 +75,7 @@ public class PermissionHelper {
     }
 
     public static void request(Activity activity, int requestID, String... permissions) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return;
         }
         if (activity != null && permissions != null) {
@@ -85,7 +85,7 @@ public class PermissionHelper {
 
     @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     public static void request(android.app.Fragment fragment, int requestID, String... permissions) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return;
         }
         if (fragment != null && permissions != null) {
@@ -94,7 +94,7 @@ public class PermissionHelper {
     }
 
     public static void request(android.support.v4.app.Fragment fragment, int requestID, String... permissions) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return;
         }
         if (fragment != null && permissions != null) {
